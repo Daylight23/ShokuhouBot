@@ -1,4 +1,4 @@
-# SKYLEEBOT
+# Misaki
 
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 [![ForTheBadge built-with-love](http://ForTheBadge.com/images/badges/built-with-love.svg)](https://GitHub.com/Naereen/)
@@ -7,7 +7,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/843cdeb7f4124dd39eb3930939478259)](https://app.codacy.com/manual/starry69/skyleebot?utm_source=github.com&utm_medium=referral&utm_content=starry69/skyleebot&utm_campaign=Badge_Grade_Dashboard)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-![logo](https://telegra.ph/file/0dd4a92bb893c1aaa6cee.jpg)
+![logo](https://telegra.ph/file/bbdd0a6a8a17f6d7e2f5b.jpg)
 
 
 A modular telegram Python bot running on python3 with an sqlalchemy database.
@@ -15,12 +15,6 @@ A modular telegram Python bot running on python3 with an sqlalchemy database.
 Originally a simple group management bot with multiple admin features, it has evolved, becoming extremely modular and 
 simple to use. Note that this project uses well-known Telegram-bot of it's time @BanhammerMarie_bot from Paul Larson as it's base.
 
-Can be found on telegram as [Skylee](https://t.me/skylee_bot).
-
-Join the [news channel](https://t.me/skyleeupdates) if you just want to stay in the loop about new features or
-announcements.
-
-Alternatively, [contact my reporter bot on telegram](https://t.me/YumiUzo_bot)! (Keep all support questions in the support chat, where more people can help you.)
 
 ## Credits
 
