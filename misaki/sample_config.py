@@ -15,8 +15,8 @@ class Config(object):
 
     # REQUIRED
     API_KEY = ""
-    OWNER_ID = (895373440
-        ""  # If you dont know, run the bot and do /id in your private chat with it
+    OWNER_ID = (
+          # If you dont know, run the bot and do /id in your private chat with it
     )
     OWNER_USERNAME = ""
     TELETHON_HASH = None  # for purge stuffs
