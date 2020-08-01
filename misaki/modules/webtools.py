@@ -33,6 +33,7 @@ def speed_convert(size):
 
 
 @run_async
+@typing_action
 def ping(update, context):
     msg = update.effective_message
     start_time = time.time()
