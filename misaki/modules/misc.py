@@ -509,6 +509,10 @@ An "odds and ends" module for small, simple commands which don't really fit anyw
  × /reverse : Reverse searches image or stickers on google.
  × /gdpr: Deletes your information from the bot's database. Private chats only.
  × /markdownhelp: Quick summary of how markdown works in telegram - can only be called in private chats.
+ × /anime <anime name>: returns anime info from anilist.co
+ × /character <character>: returns information about the character.
+ × /manga <manga>: returns information about the manga.
+ × /airing <anime name>: returns airing date for the next ep of the given anime.
 """
 
 __mod_name__ = "Miscs"
