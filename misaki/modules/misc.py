@@ -314,7 +314,7 @@ def ud(update, context):
     if not text:
         msg.reply_text("Please enter keywords to search!")
         return
-    elif text == "starry":
+    elif text == "dank":
         msg.reply_text("Fek off bitch!")
         return
     try:

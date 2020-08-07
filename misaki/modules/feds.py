@@ -113,7 +113,7 @@ def new_fed(update, context):
         x = sql.new_fed(user.id, fed_name, fed_id)
         if not x:
             update.effective_message.reply_text(
-                "Can't federate! Please contact my owner @starryboi if the problem persists."
+                "Can't federate! Please ask in @chiruzon if the problem persists."
             )
             return
 
@@ -1389,10 +1389,10 @@ def fed_ban_list(update, context):
                 backups += json.dumps(json_parser)
                 backups += "\n"
             with BytesIO(str.encode(backups)) as output:
-                output.name = "skylee_fbanned_users.json"
+                output.name = "misaki_fbanned_users.json"
                 update.effective_message.reply_document(
                     document=output,
-                    filename="skylee_fbanned_users.json",
+                    filename="misaki_fbanned_users.json",
                     caption="Total {} User are blocked by the Federation {}.".format(
                         len(getfban), info["fname"]
                     ),
@@ -1432,10 +1432,10 @@ def fed_ban_list(update, context):
                 )
                 backups += "\n"
             with BytesIO(str.encode(backups)) as output:
-                output.name = "skylee_fbanned_users.csv"
+                output.name = "misaki_fbanned_users.csv"
                 update.effective_message.reply_document(
                     document=output,
-                    filename="skylee_fbanned_users.csv",
+                    filename="misaki_fbanned_users.csv",
                     caption="Total {} User are blocked by Federation {}.".format(
                         len(getfban), info["fname"]
                     ),
