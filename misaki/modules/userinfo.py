@@ -1,5 +1,5 @@
 import html
-from typing import Optional, List
+from typing import Optional
 
 from telegram import Message, User
 from telegram import ParseMode, MAX_MESSAGE_LENGTH
@@ -9,8 +9,8 @@ from telegram.utils.helpers import escape_markdown
 import misaki.modules.sql.userinfo_sql as sql
 from misaki import dispatcher, SUDO_USERS
 from misaki.modules.disable import DisableAbleCommandHandler
-from misaki.modules.helper_funcs.extraction import extract_user
 from misaki.modules.helper_funcs.alternate import typing_action
+from misaki.modules.helper_funcs.extraction import extract_user
 
 
 @run_async

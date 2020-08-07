@@ -8,16 +8,15 @@ from telegram.utils.helpers import mention_html
 
 import misaki.modules.sql.blacklist_sql as sql
 from misaki import dispatcher, LOGGER
+from misaki.modules.connection import connected
 from misaki.modules.disable import DisableAbleCommandHandler
+from misaki.modules.helper_funcs.alternate import send_message, typing_action
 from misaki.modules.helper_funcs.chat_status import user_admin, user_not_admin
 from misaki.modules.helper_funcs.extraction import extract_text
 from misaki.modules.helper_funcs.misc import split_message
+from misaki.modules.helper_funcs.string_handling import extract_time
 from misaki.modules.log_channel import loggable
 from misaki.modules.warns import warn
-from misaki.modules.helper_funcs.string_handling import extract_time
-from misaki.modules.connection import connected
-
-from misaki.modules.helper_funcs.alternate import send_message, typing_action
 
 BLACKLIST_GROUP = 11
 
@@ -227,9 +226,9 @@ def blacklist_mode(update, context):
 
     if args:
         if (
-            args[0].lower() == "off"
-            or args[0].lower() == "nothing"
-            or args[0].lower() == "no"
+                args[0].lower() == "off"
+                or args[0].lower() == "nothing"
+                or args[0].lower() == "no"
         ):
             settypeblacklist = "do nothing"
             sql.set_blacklist_strength(chat_id, 0, "0")

@@ -1,6 +1,9 @@
-import importlib, traceback, html, json
+import html
+import importlib
+import json
 import re
-from typing import Optional, List
+import traceback
+from typing import Optional
 
 from telegram import Message, Chat, User
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
@@ -21,15 +24,13 @@ from misaki import (
     BLACKLIST_CHATS,
     WHITELIST_CHATS,
 )
-
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from misaki.modules import ALL_MODULES
-from misaki.modules.purge import client
+from misaki.modules.helper_funcs.alternate import typing_action
 from misaki.modules.helper_funcs.chat_status import is_user_admin
 from misaki.modules.helper_funcs.misc import paginate_modules
-from misaki.modules.helper_funcs.alternate import typing_action
-
+from misaki.modules.purge import client
 
 PM_START_TEXT = f"""
 Hey there! my name is *{dispatcher.bot.first_name}*. If you have any questions on how to use me, Click Help button.
@@ -50,7 +51,6 @@ buttons = [
 
 buttons += [[InlineKeyboardButton(text="Help & Commands ❔", callback_data="help_back")]]
 
-
 HELP_STRINGS = f"""
 Hello there! My name is *{dispatcher.bot.first_name}*.
 I'm a modular group management bot with a few fun extras! Have a look at the following for an idea of some of \
@@ -63,7 +63,6 @@ the things I can help you with.
  × /settings: in PM: will send you your settings for all supported modules.
    - in a group: will redirect you to pm, with all that chat's settings.
  \nClick on the buttons below to get documentation about specific modules!"""
-
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -214,10 +213,10 @@ def help_button(update, context):
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "Here is the help for the *{}* module:\n".format(
-                    HELPABLE[module].__mod_name__
-                )
-                + HELPABLE[module].__help__
+                    "Here is the help for the *{}* module:\n".format(
+                        HELPABLE[module].__mod_name__
+                    )
+                    + HELPABLE[module].__help__
             )
             query.message.reply_text(
                 text=text,
@@ -298,10 +297,10 @@ def get_help(update, context):
     elif len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
         module = args[1].lower()
         text = (
-            "Here is the available help for the *{}* module:\n".format(
-                HELPABLE[module].__mod_name__
-            )
-            + HELPABLE[module].__help__
+                "Here is the available help for the *{}* module:\n".format(
+                    HELPABLE[module].__mod_name__
+                )
+                + HELPABLE[module].__help__
         )
         send_help(
             chat.id,
@@ -420,7 +419,7 @@ def settings_button(update, context):
             chat = context.bot.get_chat(chat_id)
             query.message.reply_text(
                 text="Hi there! There are quite a few settings for {} - go ahead and pick what "
-                "you're interested in.".format(escape_markdown(chat.title)),
+                     "you're interested in.".format(escape_markdown(chat.title)),
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(0, CHAT_SETTINGS, "stngs", chat=chat_id)

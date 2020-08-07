@@ -1,13 +1,12 @@
 # module to get anime info by t.me/DragSama // find him on github :  https://github.com/DragSama // he's my doraemon btw.
 
-from telegram.ext.dispatcher import run_async
-from telegram.ext import CommandHandler
-from telegram import Message, Chat, User, ParseMode, Update, Bot, InlineKeyboardMarkup, InlineKeyboardButton
-from misaki import dispatcher
-from misaki.modules.helper_funcs.alternate import typing_action, send_action
 import requests
-import math
-import time
+from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram.ext import CommandHandler
+from telegram.ext.dispatcher import run_async
+
+from misaki import dispatcher
+from misaki.modules.helper_funcs.alternate import typing_action
 
 
 def shorten(description, info='anilist.co'):
@@ -22,7 +21,7 @@ def shorten(description, info='anilist.co'):
                                     "").replace("<i>", "").replace("</i>", ""))
 
 
-#time formatter from uniborg
+# time formatter from uniborg
 def t(milliseconds: int) -> str:
     """Inputs time in milliseconds, to get beautified time,
     as string"""
@@ -31,10 +30,10 @@ def t(milliseconds: int) -> str:
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
     tmp = ((str(days) + " Days, ") if days else "") + \
-        ((str(hours) + " Hours, ") if hours else "") + \
-        ((str(minutes) + " Minutes, ") if minutes else "") + \
-        ((str(seconds) + " Seconds, ") if seconds else "") + \
-        ((str(milliseconds) + " ms, ") if milliseconds else "")
+          ((str(hours) + " Hours, ") if hours else "") + \
+          ((str(minutes) + " Minutes, ") if minutes else "") + \
+          ((str(seconds) + " Seconds, ") if seconds else "") + \
+          ((str(milliseconds) + " ms, ") if milliseconds else "")
     return tmp[:-2]
 
 
@@ -181,8 +180,10 @@ def airing(update, context):
 def anime(update, context):
     message = update.effective_message
     search = message.text.split(' ', 1)
-    if len(search) == 1: return
-    else: search = search[1]
+    if len(search) == 1:
+        return
+    else:
+        search = search[1]
     variables = {'search': search}
     json = requests.post(url,
                          json={
@@ -287,7 +288,7 @@ def manga(update, context):
     if json:
         title, title_native = json['title'].get('romaji',
                                                 False), json['title'].get(
-                                                    'native', False)
+            'native', False)
         start_date, status, score = json['startDate'].get(
             'year', False), json.get('status',
                                      False), json.get('averageScore', False)
