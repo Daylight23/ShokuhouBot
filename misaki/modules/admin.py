@@ -49,7 +49,7 @@ def promote(update, context):
         return ""
 
     user_member = chat.get_member(user_id)
-    if user_member.status in ["administrator", "creator"]:
+    if user_member.status == "administrator" or user_member.status == "creator":
         message.reply_text("This person is already an admin...!")
         return ""
 
@@ -111,7 +111,7 @@ def demote(update, context):
         message.reply_text("I'm not gonna demote Creator this group.... 🙄")
         return ""
 
-    if user_member.status != "administrator":
+    if not user_member.status == "administrator":
         message.reply_text(
             "How I'm supposed to demote someone who is not even an admin!"
         )
@@ -175,7 +175,11 @@ def pin(update, context):
 
     is_silent = True
     if len(args) >= 1:
-        is_silent = not args[0].lower() in ["notify", "loud", "violent"]
+        is_silent = not (
+            args[0].lower() == "notify"
+            or args[0].lower() == "loud"
+            or args[0].lower() == "violent"
+        )
 
     if prev_message and is_group:
         try:
@@ -183,7 +187,9 @@ def pin(update, context):
                 chat.id, prev_message.message_id, disable_notification=is_silent
             )
         except BadRequest as excp:
-            if excp.message != "Chat_not_modified":
+            if excp.message == "Chat_not_modified":
+                pass
+            else:
                 raise
         return (
             "<b>{}:</b>"
@@ -205,16 +211,18 @@ def pin(update, context):
 def unpin(update, context):
     chat = update.effective_chat
     user = update.effective_user
-    if user_can_pin(chat, user, context.bot.id) is False:
-        message = update.effective_message
+    message = update.effective_message
 
+    if user_can_pin(chat, user, context.bot.id) is False:
         message.reply_text("You are missing rights to unpin a message!")
         return ""
 
     try:
         context.bot.unpinChatMessage(chat.id)
     except BadRequest as excp:
-        if excp.message != "Chat_not_modified":
+        if excp.message == "Chat_not_modified":
+            pass
+        else:
             raise
 
     return (
@@ -247,7 +255,7 @@ def invite(update, context):
 
     if chat.username:
         msg.reply_text(chat.username)
-    elif chat.type in [chat.SUPERGROUP, chat.CHANNEL]:
+    elif chat.type == chat.SUPERGROUP or chat.type == chat.CHANNEL:
         bot_member = chat.get_member(context.bot.id)
         if bot_member.can_invite_users:
             invitelink = context.bot.exportChatInviteLink(chat.id)
@@ -309,7 +317,7 @@ def set_title(update, context):
         )
         return
 
-    if user_member.status != "administrator":
+    if not user_member.status == "administrator":
         message.reply_text(
             "Can't set title for non-admins!\nPromote them first to set custom title!"
         )

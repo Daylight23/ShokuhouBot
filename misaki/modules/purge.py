@@ -9,12 +9,14 @@ from misaki import client, SUDO_USERS
 
 # Check if user has admin rights
 async def is_administrator(user_id: int, message):
-    return any(
-        user_id == user.id or user_id in SUDO_USERS
-        for user in client.iter_participants(
-            message.chat_id, filter=ChannelParticipantsAdmins
-        )
-    )
+    admin = False
+    async for user in client.iter_participants(
+        message.chat_id, filter=ChannelParticipantsAdmins
+    ):
+        if user_id == user.id or user_id in SUDO_USERS:
+            admin = True
+            break
+    return admin
 
 
 @client.on(events.NewMessage(pattern="^/purge"))

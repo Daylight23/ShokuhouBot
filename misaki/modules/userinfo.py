@@ -20,7 +20,11 @@ def about_me(update, context):
     args = context.args
     user_id = extract_user(message, args)
 
-    user = bot.get_chat(user_id) if user_id else message.from_user
+    if user_id:
+        user = bot.get_chat(user_id)
+    else:
+        user = message.from_user
+
     info = sql.get_user_me_info(user.id)
 
     if info:
@@ -43,12 +47,12 @@ def about_me(update, context):
 @typing_action
 def set_about_me(update, context):
     message = update.effective_message  # type: Optional[Message]
+    user_id = message.from_user.id
     text = message.text
     info = text.split(
         None, 1
     )  # use python's maxsplit to only remove the cmd, hence keeping newlines.
     if len(info) == 2:
-        user_id = message.from_user.id
         if len(info[1]) < MAX_MESSAGE_LENGTH // 4:
             sql.set_user_me_info(user_id, info[1])
             message.reply_text("Your bio has been saved successfully")
@@ -67,7 +71,11 @@ def about_bio(update, context):
     args = context.args
 
     user_id = extract_user(message, args)
-    user = context.bot.get_chat(user_id) if user_id else message.from_user
+    if user_id:
+        user = context.bot.get_chat(user_id)
+    else:
+        user = message.from_user
+
     info = sql.get_user_bio(user.id)
 
     if info:
