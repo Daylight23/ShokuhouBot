@@ -11,7 +11,7 @@ from misaki import client, SUDO_USERS
 async def is_administrator(user_id: int, message):
     admin = False
     async for user in client.iter_participants(
-            message.chat_id, filter=ChannelParticipantsAdmins
+        message.chat_id, filter=ChannelParticipantsAdmins
     ):
         if user_id == user.id or user_id in SUDO_USERS:
             admin = True

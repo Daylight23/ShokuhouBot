@@ -105,7 +105,6 @@ else:
     except ValueError:
         raise Exception("Your DEV users list does not contain valid integers.")
 
-
     try:
         SUDO_USERS = set(int(x) for x in Config.SUDO_USERS or [])
     except ValueError:
