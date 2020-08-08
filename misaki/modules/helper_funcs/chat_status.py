@@ -13,10 +13,10 @@ def can_delete(chat: Chat, bot_id: int) -> bool:
 
 def is_user_ban_protected(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     if (
-            chat.type == "private"
-            or user_id in SUDO_USERS
-            or user_id in WHITELIST_USERS
-            or chat.all_members_are_administrators
+        chat.type == "private"
+        or user_id in SUDO_USERS
+        or user_id in WHITELIST_USERS
+        or chat.all_members_are_administrators
     ):
         return True
 
@@ -28,10 +28,10 @@ def is_user_ban_protected(chat: Chat, user_id: int, member: ChatMember = None) -
 @MWT(timeout=60 * 5)  # Cache admin status for 5 mins to avoid extra requests.
 def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     if (
-            chat.type == "private"
-            or user_id in SUDO_USERS
-            or user_id == int(777000)
-            or chat.all_members_are_administrators
+        chat.type == "private"
+        or user_id in SUDO_USERS
+        or user_id == int(777000)
+        or chat.all_members_are_administrators
     ):
         return True
 
@@ -167,11 +167,10 @@ def user_not_admin(func):
 
     return is_not_admin
 
-def dev_plus(func):
 
+def dev_plus(func):
     @wraps(func)
-    def is_dev_plus_func(update: update, context: CallbackContext, *args,
-                         **kwargs):
+    def is_dev_plus_func(update: update, context: CallbackContext, *args, **kwargs):
         bot = context.bot
         user = update.effective_user
 
@@ -184,7 +183,7 @@ def dev_plus(func):
         else:
             update.effective_message.reply_text(
                 "This is a developer restricted command."
-                " You do not have permissions to run this.")
+                " You do not have permissions to run this."
+            )
 
     return is_dev_plus_func
-

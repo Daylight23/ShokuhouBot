@@ -226,9 +226,9 @@ def blacklist_mode(update, context):
 
     if args:
         if (
-                args[0].lower() == "off"
-                or args[0].lower() == "nothing"
-                or args[0].lower() == "no"
+            args[0].lower() == "off"
+            or args[0].lower() == "nothing"
+            or args[0].lower() == "no"
         ):
             settypeblacklist = "do nothing"
             sql.set_blacklist_strength(chat_id, 0, "0")
