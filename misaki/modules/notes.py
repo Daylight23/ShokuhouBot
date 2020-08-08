@@ -240,12 +240,16 @@ def save(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
     conn = connected(context.bot, update, chat, user.id)
-    if conn != False:
+    if not conn == False:
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
     else:
         chat_id = update.effective_chat.id
-        chat_name = "local notes" if chat.type == "private" else chat.title
+        if chat.type == "private":
+            chat_name = "local notes"
+        else:
+            chat_name = chat.title
+
     msg = update.effective_message
 
     note_name, text, data_type, content, buttons = get_note_type(msg)
@@ -281,12 +285,16 @@ def clear(update, context):
     conn = connected(context.bot, update, chat, user.id)
     note_name, text, data_type, content, buttons = get_note_type(msg)
 
-    if conn != False:
+    if not conn == False:
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
     else:
         chat_id = update.effective_chat.id
-        chat_name = "local notes" if chat.type == "private" else chat.title
+        if chat.type == "private":
+            chat_name = "local notes"
+        else:
+            chat_name = chat.title
+
     if len(args) >= 1:
         notename = args[0].lower()
 
@@ -312,7 +320,7 @@ def list_notes(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
     conn = connected(context.bot, update, chat, user.id, need_admin=False)
-    if conn != False:
+    if not conn == False:
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
         msg = "*Notes in {}:*\n"

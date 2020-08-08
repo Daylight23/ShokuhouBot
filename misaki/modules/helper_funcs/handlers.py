@@ -6,7 +6,10 @@ try:
 except:
     CUSTOM_CMD = False
 
-CMD_STARTERS = CUSTOM_CMD if CUSTOM_CMD else "/"
+if CUSTOM_CMD:
+    CMD_STARTERS = CUSTOM_CMD
+else:
+    CMD_STARTERS = "/"
 
 
 class CustomCommandHandler(tg.CommandHandler):

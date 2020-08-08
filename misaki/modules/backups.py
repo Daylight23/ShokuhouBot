@@ -360,14 +360,18 @@ def export_data(update, context):
 # Temporary data
 def put_chat(chat_id, value, chat_data):
     # print(chat_data)
-    status = False if not value else True
+    if not value:
+        status = False
+    else:
+        status = True
     chat_data[chat_id] = {"backups": {"status": status, "value": value}}
 
 
 def get_chat(chat_id, chat_data):
     # print(chat_data)
     try:
-        return chat_data[chat_id]["backups"]
+        value = chat_data[chat_id]["backups"]
+        return value
     except KeyError:
         return {"status": False, "value": False}
 

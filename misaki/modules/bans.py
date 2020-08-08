@@ -152,7 +152,11 @@ def temp_ban(update, context):
     split_reason = reason.split(None, 1)
 
     time_val = split_reason[0].lower()
-    reason = split_reason[1] if len(split_reason) > 1 else ""
+    if len(split_reason) > 1:
+        reason = split_reason[1]
+    else:
+        reason = ""
+
     bantime = extract_time(message, time_val)
 
     if not bantime:
@@ -287,17 +291,15 @@ def banme(update, context):
     res = update.effective_chat.kick_member(user_id)
     if res:
         update.effective_message.reply_text("Yes, you're right! GTFO..")
-        return (
+        log = (
             "<b>{}:</b>"
             "\n#BANME"
             "\n<b>User:</b> {}"
             "\n<b>ID:</b> <code>{}</code>".format(
-                html.escape(chat.title),
-                mention_html(user.id, user.first_name),
-                user_id,
+                html.escape(chat.title), mention_html(user.id, user.first_name), user_id
             )
         )
-
+        return log
 
     else:
         update.effective_message.reply_text("Huh? I can't :/")

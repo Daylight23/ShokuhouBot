@@ -20,7 +20,11 @@ AFK_REPLY_GROUP = 8
 @run_async
 def afk(update, context):
     args = update.effective_message.text.split(None, 1)
-    reason = args[1] if len(args) >= 2 else ""
+    if len(args) >= 2:
+        reason = args[1]
+    else:
+        reason = ""
+
     sql.set_afk(update.effective_user.id, reason)
     afkstr = random.choice(fun.AFK)
     update.effective_message.reply_text(afkstr.format(update.effective_user.first_name))
@@ -86,7 +90,11 @@ def __user_info__(user_id):
     is_afk = sql.is_afk(user_id)
 
     text = "<b>Currently AFK</b>: {}"
-    text = text.format("Yes") if is_afk else text.format("No")
+    if is_afk:
+        text = text.format("Yes")
+
+    else:
+        text = text.format("No")
     return text
 
 
