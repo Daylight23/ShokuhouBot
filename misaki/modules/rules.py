@@ -8,9 +8,9 @@ from telegram.utils.helpers import escape_markdown
 
 import misaki.modules.sql.rules_sql as sql
 from misaki import dispatcher
+from misaki.modules.helper_funcs.alternate import typing_action
 from misaki.modules.helper_funcs.chat_status import user_admin
 from misaki.modules.helper_funcs.string_handling import markdown_parser
-from misaki.modules.helper_funcs.alternate import typing_action
 
 
 @run_async

@@ -1,21 +1,19 @@
-import speedtest
-import requests
 import datetime
 import platform
 import time
-
-from psutil import cpu_percent, virtual_memory, disk_usage, boot_time
 from platform import python_version
-from telegram import __version__
+
+import requests
+import speedtest
+from psutil import cpu_percent, virtual_memory, disk_usage, boot_time
 from spamwatch import __version__ as __sw__
-from pythonping import ping as ping3
 from telegram import ParseMode
+from telegram import __version__
 from telegram.ext import CommandHandler, run_async, Filters
+
 from misaki import dispatcher, OWNER_ID
-from misaki.modules.helper_funcs.filters import CustomFilters
 from misaki.modules.helper_funcs.alternate import typing_action
-
-
+from misaki.modules.helper_funcs.filters import CustomFilters
 
 
 # Kanged from PaperPlane Extended userbot

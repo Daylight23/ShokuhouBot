@@ -1,6 +1,5 @@
-
-build: 
+build:
   docker:
-      worker: Dockerfile
+    worker: Dockerfile
 run:
-   worker: python3 -m misaki
+  worker: python3 -m misaki

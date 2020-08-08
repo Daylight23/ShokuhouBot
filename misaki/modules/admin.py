@@ -1,6 +1,5 @@
 import html
 import os
-from typing import Optional
 
 from telegram import ParseMode
 from telegram.error import BadRequest
@@ -9,7 +8,14 @@ from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import mention_html
 
 from misaki import dispatcher
+from misaki.modules.connection import connected
 from misaki.modules.disable import DisableAbleCommandHandler
+from misaki.modules.helper_funcs.admin_rights import (
+    user_can_pin,
+    user_can_promote,
+    user_can_changeinfo,
+)
+from misaki.modules.helper_funcs.alternate import typing_action
 from misaki.modules.helper_funcs.chat_status import (
     bot_admin,
     can_promote,
@@ -17,13 +23,6 @@ from misaki.modules.helper_funcs.chat_status import (
     can_pin,
 )
 from misaki.modules.helper_funcs.extraction import extract_user, extract_user_and_text
-from misaki.modules.helper_funcs.admin_rights import (
-    user_can_pin,
-    user_can_promote,
-    user_can_changeinfo,
-)
-from misaki.modules.helper_funcs.alternate import typing_action
-from misaki.modules.connection import connected
 from misaki.modules.log_channel import loggable
 
 
@@ -177,9 +176,9 @@ def pin(update, context):
     is_silent = True
     if len(args) >= 1:
         is_silent = not (
-            args[0].lower() == "notify"
-            or args[0].lower() == "loud"
-            or args[0].lower() == "violent"
+                args[0].lower() == "notify"
+                or args[0].lower() == "loud"
+                or args[0].lower() == "violent"
         )
 
     if prev_message and is_group:

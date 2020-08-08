@@ -1,7 +1,9 @@
 from functools import wraps
-from telegram import User, Chat, ChatMember
 
-from misaki import DEL_CMDS, SUDO_USERS, WHITELIST_USERS
+from telegram import User, Chat, ChatMember, update, Update
+from telegram.ext import CallbackContext
+
+from misaki import DEL_CMDS, SUDO_USERS, WHITELIST_USERS, DEV_USERS
 from misaki.mwt import MWT
 
 
@@ -11,10 +13,10 @@ def can_delete(chat: Chat, bot_id: int) -> bool:
 
 def is_user_ban_protected(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     if (
-        chat.type == "private"
-        or user_id in SUDO_USERS
-        or user_id in WHITELIST_USERS
-        or chat.all_members_are_administrators
+            chat.type == "private"
+            or user_id in SUDO_USERS
+            or user_id in WHITELIST_USERS
+            or chat.all_members_are_administrators
     ):
         return True
 
@@ -26,10 +28,10 @@ def is_user_ban_protected(chat: Chat, user_id: int, member: ChatMember = None) -
 @MWT(timeout=60 * 5)  # Cache admin status for 5 mins to avoid extra requests.
 def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     if (
-        chat.type == "private"
-        or user_id in SUDO_USERS
-        or user_id == int(777000)
-        or chat.all_members_are_administrators
+            chat.type == "private"
+            or user_id in SUDO_USERS
+            or user_id == int(777000)
+            or chat.all_members_are_administrators
     ):
         return True
 
@@ -164,3 +166,25 @@ def user_not_admin(func):
             return func(update, context, *args, **kwargs)
 
     return is_not_admin
+
+def dev_plus(func):
+
+    @wraps(func)
+    def is_dev_plus_func(update: update, context: CallbackContext, *args,
+                         **kwargs):
+        bot = context.bot
+        user = update.effective_user
+
+        if user.id in DEV_USERS:
+            return func(Update, context, *args, **kwargs)
+        elif not user:
+            pass
+        elif DEL_CMDS and " " not in update.effective_message.text:
+            update.effective_message.delete()
+        else:
+            update.effective_message.reply_text(
+                "This is a developer restricted command."
+                " You do not have permissions to run this.")
+
+    return is_dev_plus_func
+
