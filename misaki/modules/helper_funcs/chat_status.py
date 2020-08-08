@@ -170,12 +170,12 @@ def user_not_admin(func):
 
 def dev_plus(func):
     @wraps(func)
-    def is_dev_plus_func(update: update, context: CallbackContext, *args, **kwargs):
+    def is_dev_plus_func(update: Update, context: CallbackContext, *args, **kwargs):
         bot = context.bot
         user = update.effective_user
 
         if user.id in DEV_USERS:
-            return func(Update, context, *args, **kwargs)
+            return func(update, context, *args, **kwargs)
         elif not user:
             pass
         elif DEL_CMDS and " " not in update.effective_message.text:

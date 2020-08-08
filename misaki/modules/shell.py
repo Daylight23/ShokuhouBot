@@ -7,7 +7,6 @@ from telegram.ext.dispatcher import run_async
 from misaki import LOGGER, dispatcher
 from misaki.modules.helper_funcs.chat_status import dev_plus
 
-
 @dev_plus
 @run_async
 def shell(update: Update, context: CallbackContext):
