@@ -18,9 +18,9 @@ user_admin = chat_status.user_admin
 @typing_action
 def allow_connections(update, context) -> str:
     chat = update.effective_chat
-    args = context.args
-
     if chat.type != chat.PRIVATE:
+        args = context.args
+
         if len(args) >= 1:
             var = args[0]
             if var == "no":
@@ -90,9 +90,9 @@ def connection_chat(update, context):
 def connect_chat(update, context):
     chat = update.effective_chat
     user = update.effective_user
-    args = context.args
+    if chat.type == "private":
+        args = context.args
 
-    if update.effective_chat.type == "private":
         if args and len(args) >= 1:
             try:
                 connect_chat = int(args[0])
