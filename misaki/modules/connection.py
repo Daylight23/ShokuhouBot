@@ -6,7 +6,7 @@ from telegram.error import BadRequest, Unauthorized
 from telegram.ext import CommandHandler, CallbackQueryHandler, run_async
 
 import misaki.modules.sql.connection_sql as sql
-from misaki import dispatcher, SUDO_USERS
+from misaki import dispatcher, SUDO_USERS, DEV_USERS
 from misaki.modules.helper_funcs import chat_status
 from misaki.modules.helper_funcs.alternate import send_message, typing_action
 
@@ -277,7 +277,7 @@ def connected(bot, update, chat, user_id, need_admin=True):
                 or (user.id in SUDO_USERS)
                 or (user.id in DEV_USERS)
         ):
-            if need_admin == True:
+            if need_admin:
                 if (
                         getstatusadmin.status in ("administrator", "creator")
                         or user_id in SUDO_USERS

@@ -358,7 +358,7 @@ def export_data(update, context):
 # Temporary data
 def put_chat(chat_id, value, chat_data):
     # print(chat_data)
-    if value == False:
+    if not value:
         status = False
     else:
         status = True

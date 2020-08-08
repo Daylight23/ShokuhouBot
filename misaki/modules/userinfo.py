@@ -1,7 +1,7 @@
 import html
 from typing import Optional
 
-from telegram import Message, User
+from telegram import Message, User, bot
 from telegram import ParseMode, MAX_MESSAGE_LENGTH
 from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import escape_markdown

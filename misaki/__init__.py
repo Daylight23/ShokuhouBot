@@ -35,6 +35,11 @@ if ENV:
     OWNER_USERNAME = os.environ.get("OWNER_USERNAME", None)
 
     try:
+        DEV_USERS = set(int(x) for x in os.environ.get("DEV_USERS", "").split())
+    except ValueError:
+        raise Exception("Your DEV users list does not contain valid integers.")
+
+    try:
         SUDO_USERS = set(int(x) for x in os.environ.get("SUDO_USERS", "").split())
     except ValueError:
         raise Exception("Your sudo users list does not contain valid integers.")
@@ -96,6 +101,12 @@ else:
     OWNER_USERNAME = Config.OWNER_USERNAME
 
     try:
+        DEV_USERS = set(int(x) for x in os.environ.get("DEV_USERS", "").split())
+    except ValueError:
+        raise Exception("Your DEV users list does not contain valid integers.")
+
+
+    try:
         SUDO_USERS = set(int(x) for x in Config.SUDO_USERS or [])
     except ValueError:
         raise Exception("Your sudo users list does not contain valid integers.")
@@ -140,6 +151,7 @@ else:
     SPAMWATCH = Config.SPAMWATCH_API
 
 SUDO_USERS.add(OWNER_ID)
+DEV_USERS.add(OWNER_ID)
 
 # Pass if SpamWatch token not set.
 if SPAMWATCH == None:
@@ -158,6 +170,7 @@ updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
 dispatcher = updater.dispatcher
 
 SUDO_USERS = list(SUDO_USERS)
+DEV_USERS = list(DEV_USERS)
 WHITELIST_USERS = list(WHITELIST_USERS)
 SUPPORT_USERS = list(SUPPORT_USERS)
 
