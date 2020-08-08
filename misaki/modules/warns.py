@@ -217,6 +217,7 @@ def warn_user(update, context):
 def reset_warns(update, context):
     message = update.effective_message  # type: Optional[Message]
     chat = update.effective_chat  # type: Optional[Chat]
+    user = update.effective_user  # type: Optional[User]
     args = context.args
     user_id = extract_user(message, args)
 
@@ -224,7 +225,6 @@ def reset_warns(update, context):
         sql.reset_warns(user_id, chat.id)
         message.reply_text("Warnings have been reset!")
         warned = chat.get_member(user_id).user
-        user = update.effective_user  # type: Optional[User]
         return (
             "<b>{}:</b>"
             "\n#RESETWARNS"
@@ -249,6 +249,7 @@ def reset_warns(update, context):
 def remove_warns(update, context):
     message = update.effective_message  # type: Optional[Message]
     chat = update.effective_chat  # type: Optional[Chat]
+    user = update.effective_user  # type: Optional[User]
     args = context.args
     user_id = extract_user(message, args)
 
@@ -256,7 +257,6 @@ def remove_warns(update, context):
         sql.remove_warn(user_id, chat.id)
         message.reply_text("Last warn has been removed!")
         warned = chat.get_member(user_id).user
-        user = update.effective_user  # type: Optional[User]
         return (
             "<b>{}:</b>"
             "\n#UNWARN"
@@ -282,6 +282,7 @@ def warns(update, context):
     args = context.args
     user_id = extract_user(message, args) or update.effective_user.id
     result = sql.get_warns(user_id, chat.id)
+    num = 1
     if result and result[0] != 0:
         num_warns, reasons = result
         limit, soft_warn = sql.get_warn_setting(chat.id)
@@ -290,7 +291,6 @@ def warns(update, context):
             text = "This user has {}/{} warnings, for the following reasons:".format(
                 num_warns, limit
             )
-            num = 1
             for reason in reasons:
                 text += "\n {}. {}".format(num, reason)
                 num += 1
@@ -396,7 +396,7 @@ def list_warn_filters(update, context):
         else:
             filter_list += entry
 
-    if filter_list != CURRENT_WARNING_FILTER_STRING:
+    if not filter_list == CURRENT_WARNING_FILTER_STRING:
         update.effective_message.reply_text(filter_list, parse_mode=ParseMode.HTML)
 
 
@@ -519,7 +519,7 @@ def __stats__():
 
 def __import_data__(chat_id, data):
     for user_id, count in data.get("warns", {}).items():
-        for _ in range(int(count)):
+        for x in range(int(count)):
             sql.warn_user(user_id, chat_id)
 
 

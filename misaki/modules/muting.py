@@ -104,13 +104,7 @@ def unmute(update, context):
 
     member = chat.get_member(int(user_id))
 
-    if member.status in ["kicked", "left"]:
-        message.reply_text(
-            "This user isn't even in the chat, unmuting them won't make them talk more than they "
-            "already do!"
-        )
-
-    else:
+    if member.status != "kicked" and member.status != "left":
         if (
             member.can_send_messages
             and member.can_send_media_messages
@@ -144,6 +138,12 @@ def unmute(update, context):
                     mention_html(member.user.id, member.user.first_name),
                 )
             )
+    else:
+        message.reply_text(
+            "This user isn't even in the chat, unmuting them won't make them talk more than they "
+            "already do!"
+        )
+
     return ""
 
 
@@ -195,7 +195,11 @@ def temp_mute(update, context):
     split_reason = reason.split(None, 1)
 
     time_val = split_reason[0].lower()
-    reason = split_reason[1] if len(split_reason) > 1 else ""
+    if len(split_reason) > 1:
+        reason = split_reason[1]
+    else:
+        reason = ""
+
     mutetime = extract_time(message, time_val)
 
     if not mutetime:

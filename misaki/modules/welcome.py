@@ -64,7 +64,7 @@ def send(update, message, keyboard, backup_message):
     # Clean service welcome
     if cleanserv:
         try:
-            dispatcher.bot.delete_message(chat.id, reply)
+            dispatcher.bot.delete_message(chat.id, update.message.message_id)
         except BadRequest:
             pass
         reply = False
@@ -336,7 +336,7 @@ def left_member(update, context):
         # Clean service welcome
         if cleanserv:
             try:
-                dispatcher.bot.delete_message(chat.id, reply)
+                dispatcher.bot.delete_message(chat.id, update.message.message_id)
             except BadRequest:
                 pass
             reply = False
@@ -382,7 +382,11 @@ def left_member(update, context):
                     fullname = first_name
                 count = chat.get_members_count()
                 mention = mention_html(left_mem.id, first_name)
-                username = "@" + escape(left_mem.username) if left_mem.username else mention
+                if left_mem.username:
+                    username = "@" + escape(left_mem.username)
+                else:
+                    username = mention
+
                 valid_format = escape_invalid_curly_brackets(
                     cust_goodbye, VALID_WELCOME_FORMATTERS
                 )
@@ -726,16 +730,16 @@ def clean_welcome(update, context) -> str:
 @typing_action
 def cleanservice(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
+    args = context.args
     if chat.type != chat.PRIVATE:
-        args = context.args
         if len(args) >= 1:
             var = args[0]
-            if var in ["no", "off"]:
+            if var == "no" or var == "off":
                 sql.set_clean_service(chat.id, False)
                 update.effective_message.reply_text(
                     "Turned off service messages cleaning."
                 )
-            elif var in ["yes", "on"]:
+            elif var == "yes" or var == "on":
                 sql.set_clean_service(chat.id, True)
                 update.effective_message.reply_text(
                     "Turned on service messages cleaning!"

@@ -88,7 +88,7 @@ def report(update, context) -> str:
         messages = update.effective_message
 
         isadmeme = chat.get_member(reported_user.id).status
-        if isadmeme in ["administrator", "creator"]:
+        if isadmeme == "administrator" or isadmeme == "creator":
             return ""  # No point of reporting admins!
 
         if user.id == reported_user.id:
@@ -163,7 +163,9 @@ def report(update, context) -> str:
                 except Unauthorized:
                     pass
                 except BadRequest as excp:  # TODO: cleanup exceptions
-                    if excp.message != "Message_id_invalid":
+                    if excp.message == "Message_id_invalid":
+                        pass
+                    else:
                         LOGGER.exception(
                             "Exception while reporting user " + excp.message
                         )
