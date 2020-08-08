@@ -92,14 +92,12 @@ def info(update, context):
     elif not msg.reply_to_message and not args:
         user = msg.from_user
 
-    elif not msg.reply_to_message and (
-        not args
-        or (
-            len(args) >= 1
-            and not args[0].startswith("@")
-            and not args[0].isdigit()
-            and not msg.parse_entities([MessageEntity.TEXT_MENTION])
-        )
+    elif (
+        not msg.reply_to_message
+        and len(args) >= 1
+        and not args[0].startswith("@")
+        and not args[0].isdigit()
+        and not msg.parse_entities([MessageEntity.TEXT_MENTION])
     ):
         msg.reply_text("I can't extract a user from this.")
         return
@@ -135,8 +133,6 @@ def info(update, context):
         if sw:
             text += "\n\n<b>This person is banned in Spamwatch!</b>"
             text += f"\nResason: <pre>{sw.reason}</pre>"
-        else:
-            pass
     except:
         pass  # Don't break on exceptions like if api is down?
 
@@ -163,7 +159,7 @@ def info(update, context):
 
     try:
         memstatus = chat.get_member(user.id).status
-        if memstatus == "administrator" or memstatus == "creator":
+        if memstatus in ["administrator", "creator"]:
             result = context.bot.get_chat_member(chat.id, user.id)
             if result.custom_title:
                 text += f"\n\nThis user has custom title <b>{result.custom_title}</b> in this chat."
@@ -349,15 +345,11 @@ def src(update, context):
 @run_async
 @send_action(ChatAction.UPLOAD_PHOTO)
 def wall(update, context):
-    chat_id = update.effective_chat.id
     msg = update.effective_message
     msg_id = update.effective_message.message_id
     args = context.args
     query = " ".join(args)
-    if not query:
-        msg.reply_text("Please enter a query!")
-        return
-    else:
+    if query:
         caption = query
         term = query.replace(" ", "%20")
         json_rep = r.get(
@@ -368,14 +360,12 @@ def wall(update, context):
 
         else:
             wallpapers = json_rep.get("wallpapers")
-            if not wallpapers:
-                msg.reply_text("No results found! Refine your search.")
-                return
-            else:
+            if wallpapers:
                 index = randint(0, len(wallpapers) - 1)  # Choose random index
                 wallpaper = wallpapers[index]
                 wallpaper = wallpaper.get("url_image")
                 wallpaper = wallpaper.replace("\\", "")
+                chat_id = update.effective_chat.id
                 context.bot.send_photo(
                     chat_id,
                     photo=wallpaper,
@@ -391,6 +381,13 @@ def wall(update, context):
                     reply_to_message_id=msg_id,
                     timeout=60,
                 )
+
+            else:
+                msg.reply_text("No results found! Refine your search.")
+                return
+    else:
+        msg.reply_text("Please enter a query!")
+        return
 
 
 @run_async
