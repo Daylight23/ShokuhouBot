@@ -11,7 +11,7 @@ from telegram import ParseMode, Update
 from telegram import __version__
 from telegram.ext import CommandHandler, run_async, Filters, CallbackContext
 
-from misaki import dispatcher, OWNER_ID
+from misaki import dispatcher, StartTime, OWNER_ID
 from misaki.modules.helper_funcs.alternate import typing_action
 from misaki.modules.helper_funcs.filters import CustomFilters
 
