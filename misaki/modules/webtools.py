@@ -7,7 +7,7 @@ import requests
 import speedtest
 from psutil import cpu_percent, virtual_memory, disk_usage, boot_time
 from spamwatch import __version__ as __sw__
-from telegram import ParseMode
+from telegram import ParseMode, Update
 from telegram import __version__
 from telegram.ext import CommandHandler, run_async, Filters
 
