@@ -134,6 +134,7 @@ RUN set -ex; \
 
 # Pypi package Repo upgrade
 RUN pip3 install --upgrade pip setuptools
+RUN apk add git
 
 # Copy Python Requirements to /root/ShokuhouBot
 RUN git clone https://github.com/Dank-del/ShokuhouBot /root/ShokuhouBot
