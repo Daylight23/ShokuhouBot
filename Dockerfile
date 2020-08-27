@@ -35,32 +35,55 @@ RUN set -ex \
 	&& rm python.tar.xz \
 	\
 	&& apk add --no-cache --virtual .build-deps  \
-		bluez-dev \
-		bzip2-dev \
-		coreutils \
-		dpkg-dev dpkg \
-		expat-dev \
-		findutils \
-		gcc \
-		gdbm-dev \
-		libc-dev \
-		libffi-dev \
-		libnsl-dev \
-		libtirpc-dev \
-		linux-headers \
-		make \
-		ncurses-dev \
-		openssl-dev \
-		pax-utils \
-		readline-dev \
-		sqlite-dev \
-		tcl-dev \
-		tk \
-		tk-dev \
-		util-linux-dev \
-		xz-dev \
-		zlib-dev \
+		bash \
+        bzip2 \
+        curl \
+        figlet \
         git \
+        util-linux \
+        libffi-dev \
+        libjpeg-dev \
+        libjpeg62-turbo-dev \
+        libwebp-dev \
+        linux-headers-amd64 \
+        musl-dev \
+        musl \
+        neofetch \
+        php-pgsql \
+        python3-lxml \
+        postgresql \
+        postgresql-client \
+        python3-psycopg2 \
+        libpq-dev \
+        libcurl4-openssl-dev \
+        libxml2-dev \
+        libxslt1-dev \
+        python3-pip \
+        python3-requests \
+        python3-sqlalchemy \
+        python3-tz \
+        python3-aiohttp \
+        openssl \
+        pv \
+        jq \
+        wget \
+        python3 \
+        python3-dev \
+        libreadline-dev \
+        libyaml-dev \
+        gcc \
+        sqlite3 \
+        libsqlite3-dev \
+        sudo \
+        zlib1g \
+        ffmpeg \
+        libssl-dev \
+        libgconf-2-4 \
+        libxi6 \
+        xvfb \
+        unzip \
+        libopus0 \
+        libopus-dev \
 # add build deps before removing fetch deps in case there's overlap
 	&& apk del --no-network .fetch-deps \
 	\
