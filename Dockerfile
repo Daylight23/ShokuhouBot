@@ -63,6 +63,7 @@ RUN set -ex \
 		util-linux-dev \
 		xz-dev \
 		zlib-dev \
+        git \
 # add build deps before removing fetch deps in case there's overlap
 	&& apk del --no-network .fetch-deps \
 	\
