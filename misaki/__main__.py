@@ -40,6 +40,7 @@ I'm here to make your group management fun and easy!
 i have lots of handy features, such as flood control, a warning system, a note keeping system, and even replies on predetermined filters.
 
 Wanna Add me to your Group? Just click the button below!
+Tap on /help to know all my commands!
 """
 
 buttons = [
@@ -49,8 +50,6 @@ buttons = [
         ),
     ]
 ]
-
-buttons += [[InlineKeyboardButton(text="Help & Commands ❔", callback_data="help_back")]]
 
 HELP_STRINGS = f"""
 Hello there! My name is *{dispatcher.bot.first_name}*.
@@ -210,6 +209,9 @@ def help_button(update, context):
     prev_match = re.match(r"help_prev\((.+?)\)", query.data)
     next_match = re.match(r"help_next\((.+?)\)", query.data)
     back_match = re.match(r"help_back", query.data)
+
+    print(query.message.chat.id)
+
     try:
         if mod_match:
             module = mod_match.group(1)
@@ -219,45 +221,36 @@ def help_button(update, context):
                 )
                 + HELPABLE[module].__help__
             )
-            query.message.reply_text(
-                text=text,
-                parse_mode=ParseMode.MARKDOWN,
-                reply_markup=InlineKeyboardMarkup(
+            query.message.edit_text(text=text,
+                                parse_mode=ParseMode.MARKDOWN,
+                                reply_markup=InlineKeyboardMarkup(
                     [[InlineKeyboardButton(text="⬅️ Back", callback_data="help_back")]]
                 ),
             )
 
         elif prev_match:
-            curr_page = int(prev_match.group(1))
-            query.message.reply_text(
-                HELP_STRINGS,
-                parse_mode=ParseMode.MARKDOWN,
-                reply_markup=InlineKeyboardMarkup(
-                    paginate_modules(curr_page - 1, HELPABLE, "help")
-                ),
-            )
-
-        elif next_match:
-            next_page = int(next_match.group(1))
-            query.message.reply_text(
-                HELP_STRINGS,
-                parse_mode=ParseMode.MARKDOWN,
-                reply_markup=InlineKeyboardMarkup(
-                    paginate_modules(next_page + 1, HELPABLE, "help")
-                ),
-            )
-
-        elif back_match:
-            query.message.reply_text(
+                curr_page = int(prev_match.group(1))
+                query.message.edit_text(
                 text=HELP_STRINGS,
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
-                    paginate_modules(0, HELPABLE, "help")
-                ),
-            )
+                    paginate_modules(curr_page - 1, HELPABLE, "help")))
+
+        elif next_match:
+            next_page = int(next_match.group(1))
+            query.message.edit_text(
+                text=HELP_STRINGS,
+                parse_mode=ParseMode.MARKDOWN,
+                reply_markup=InlineKeyboardMarkup(
+                    paginate_modules(next_page + 1, HELPABLE, "help")))
+
+        elif back_match:
+            query.message.edit_text(
+                text=HELP_STRINGS,
+                parse_mode=ParseMode.MARKDOWN,
+                reply_markup=InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help")))
 
         # ensure no spinny white circle
-        query.message.delete()
         context.bot.answer_callback_query(query.id)
     except Exception as excp:
         if excp.message == "Message is not modified":
