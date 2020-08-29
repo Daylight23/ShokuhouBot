@@ -1,3 +1,1 @@
-import subprocess
-x = subprocess.run(["neofetch", "--stdout"], capture_output=True, text=True)
-print(x.stdout)
+bot.send_chat_action(-1001423839742, "typing")
