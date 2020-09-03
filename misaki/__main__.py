@@ -160,8 +160,8 @@ def start(update, context):
                 IMPORTED["rules"].send_rules(update, args[0], from_pm=True)
 
         else:
-            update.effective_message.reply_animation(
-                "https://telegra.ph/file/a23ed40229a5902920e45.mp4",
+            update.effective_message.reply_photo(
+                "https://telegra.ph/file/bbdd0a6a8a17f6d7e2f5b.jpg",
                 PM_START_TEXT,
                 reply_markup=InlineKeyboardMarkup(buttons),
                 parse_mode=ParseMode.MARKDOWN,
